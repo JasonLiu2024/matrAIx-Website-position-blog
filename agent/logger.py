@@ -5,7 +5,7 @@ Writes, per run:
   runs/<id>/trajectory.jsonl  one line per step
   runs/<id>/run.json          full run record in the matrAIx report schema
 
-run.json matches what case_study.html / demo.html will load in P3-P4
+run.json matches what case_study.html / playground/index.html will load in P3-P4
 (fields: id, target, goal, persona, outcome, score, trajectory, findings,
 telemetry). reward/findings are left null/empty until the P3 judge lands.
 """

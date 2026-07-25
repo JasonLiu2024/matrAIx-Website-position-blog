@@ -1120,7 +1120,7 @@ Home → Plain-language Thesis → One Story → Limitations → Community → C
 │   ├── benchmarks/
 │   └── updates/
 ├── personas.html                     Persona research + explorer
-├── applications.html                 Task & scenario library
+├── applications/index.html           Task & scenario library
 ├── playground.html                   Interactive simulation
 ├── community.html                    Teams + contributors + join
 ├── methodology.html                  Research methodology
@@ -1130,9 +1130,9 @@ Home → Plain-language Thesis → One Story → Limitations → Community → C
 
 为了兼容现有 URL，可以先保持：
 
-- `persona.html`
-- `demo.html`
-- `access.html`
+- `personas/index.html`
+- `playground/index.html`
+- `community/index.html`
 
 但导航文字显示为：
 

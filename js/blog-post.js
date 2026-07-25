@@ -15,6 +15,12 @@
   );
   articleUrl.hash = '';
   const canonicalUrl = articleUrl.href;
+  if (!declaredCanonical) {
+    const canonicalLink = document.createElement('link');
+    canonicalLink.rel = 'canonical';
+    canonicalLink.href = canonicalUrl;
+    document.head.appendChild(canonicalLink);
+  }
   const shareText = articleSummary || articleTitle;
   const header = document.querySelector('.blog-header');
 

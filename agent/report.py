@@ -3,7 +3,7 @@
 Copies a run's run.json to <site>/Assets/runs/<id>.json and updates the
 manifest <site>/Assets/runs/index.json. The site then serves it statically:
   - case_study.html?run=<id>   renders the full trajectory + findings
-  - demo.html                  lists published runs from the manifest
+    - playground/index.html      lists published runs from the manifest
 
 Usage:
   python -m agent.report agent/runs/<run-id>        # publish into this repo

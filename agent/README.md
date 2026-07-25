@@ -21,7 +21,7 @@ the matrAIx report schema.
 
 The report UI consumes published runs:
 - **`case_study.html?run=<id>`** — full trajectory + persona + eval findings (falls back to the hand-authored fixture when no `?run`).
-- **`demo.html`** — "From the simulator" lists every published run, linking to its case-study view.
+- **`playground/index.html`** — "From the simulator" lists every published run, linking to its case-study view.
 
 ## Run it (on your own machine — not the shared box)
 

@@ -12,9 +12,11 @@ the persona **dimension schema** that defines the space those agents are sampled
 | Page | File | What it is |
 |------|------|------------|
 | Landing | [`index.html`](index.html) | Hero with the 8.3-billion-behavior headline, "Open-Source Community" badge, and a live agent-field simulation (canvas), telemetry strip, and eval methodology. |
-| Blog | [`blog/`](blog/) | Blog index page with 3 research papers in a single-column layout. Gateway to research insights on persona grounding, evaluation frameworks, and agent simulation. |
-| Persona Explorer | [`person.html`](person.html) | Browse the flat persona schema: filter by category, search, expand value pools, and sample a full synthetic persona. |
-| Demo Portal (matrAIx OS) | [`demo.html`](demo.html) | A mission-control interface for eight public evaluation tasks across surveys, chatbots, websites, and apps, with live agent telemetry, reports, and JSONL trajectory export. |
+| Research | [`research/`](research/) | Research questions, methods, and findings on persona grounding, evaluation frameworks, and agent simulation. |
+| Personas | [`personas/`](personas/) | Explore persona data pipelines, the schema, and sampled persona attributes. |
+| Applications | [`applications/`](applications/) | Browse evaluation tasks across surveys, chatbots, websites, and apps. |
+| Playground (matrAIx OS) | [`playground/`](playground/) | A mission-control interface for eight public evaluation tasks with live agent telemetry, reports, and JSONL trajectory export. |
+| Community | [`community/`](community/) | Meet the MatrAIx research community and find ways to contribute. |
 | Case Study | [`case_study.html`](case_study.html) | A recorded sample trajectory: a matrAIx computer-using agent (10-dimension persona) files an auto-insurance claim on hugclaim.com, with per-step screenshots, observations, actions, rewards, friction findings, and a JSONL export. |
 | Let's Play! | [`play.html`](play.html) | A fun 8-question personality quiz. Each answer maps to a real persona dimension value (`dominant_trait`, `risk_tolerance`, `decision_style`, `values_priority`, `tone_expected`, `learning_style`, `media_diet`, `economic_motivation`); after answering, matrAIx synthesizes the player's **persona**, names their archetype, and **predicts how they'd behave** inside a product flow — the simulation-fidelity thesis, made playable. Self-contained (no schema file needed). |
 
@@ -69,7 +71,7 @@ Hugging Face release is planned.
 
 ## Benchmark portal (matrAIx OS)
 
-The [Demo Portal](demo.html) is a mission-control interface. Pick one of the **eight demo tasks**,
+The [Playground](playground/) is a mission-control interface. Pick one of the **eight demo tasks**,
 and an **agent swarm** of personas drawn from the dimension space runs its
 flow step by step. Each step emits **trajectory telemetry** (`observation → action → reward`)
 to the live console, the **Neural Eval Core** brain pulses the activated region, and the
@@ -135,19 +137,23 @@ docs/                           Design, typography, and theme documentation
 scripts/                        Build and generation utilities
 archive/                        Non-served historical artifacts
 
-blog/
-├── index.html                  Blog index page (links to research papers)
+research/
+├── index.html                  Research index page
 ├── missing-human-layer.html    Position: Why Human Simulation Is the Next Step for AI Agents
 ├── application-colm.html       Research: Evaluating Interactive Applications with Persona-Conditioned Agents
 └── env-colm.html               Research: Measuring Persona Drift in Long-Horizon Agent Simulations
 
-persona.html                    Persona explorer markup
-explorer.html                   Redirect stub -> persona.html
+personas/index.html             Persona explorer markup
+persona.html                    Legacy redirect -> /personas/
+explorer.html                   Legacy redirect -> /personas/
 css/explorer.css                Persona-explorer styling
 js/explorer.js                  Schema loading, filtering, search, persona sampler
 
-demo.html                       Demo / benchmark console markup (runway hero + OS portal)
-benchmark.html                  Redirect stub -> demo.html
+applications/index.html         Evaluation task gallery
+community/index.html            Community page
+playground/index.html           Playground / benchmark console markup
+demo.html                       Legacy redirect -> /playground/
+benchmark.html                  Legacy redirect -> /playground/
 css/benchmark.css               Benchmark-specific styling
 js/benchmark.js                 Sampling, structured scoring, live stream, heatmap, JSONL export
 

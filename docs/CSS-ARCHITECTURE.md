@@ -15,8 +15,8 @@ All HTML files load stylesheets in this order:
 
 2. page-specific.css      ← PAGE STYLES (if needed)
    ├─ css/home.css            (index.html, blog pages)
-   ├─ css/explorer.css        (persona.html)
-   ├─ css/benchmark.css       (demo.html)
+   ├─ css/explorer.css        (personas/index.html)
+   ├─ css/benchmark.css       (playground/index.html)
    ├─ css/play.css            (play.html)
    └─ css/styles.css          (imported by css/explorer.css)
 

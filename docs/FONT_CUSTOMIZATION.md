@@ -48,10 +48,10 @@ Update the `:root` variables at the top:
 Update the `--disp` variable in each file's `:root` block.
 
 ### 3. Blog HTML files
-- `blog/index.html`
-- `blog/missing-human-layer.html`
-- `blog/application-colm.html`
-- `blog/env-colm.html`
+- `research/index.html`
+- `research/missing-human-layer.html`
+- `research/application-colm.html`
+- `research/env-colm.html`
 
 Update the inline `--disp` variable in each file's `<style>` block.
 
@@ -123,10 +123,10 @@ h1, h2, h3, h4, h5, h6 {
 2. Ensure the font is properly imported (via Google Fonts or other service)
 3. Test across all pages:
    - Home (`index.html`)
-   - Persona explorer (`persona.html`)
+  - Persona explorer (`personas/index.html`)
    - Quiz (`play.html`)
-   - Demo portal (`demo.html`)
-   - Blog pages (`blog/`)
+  - Playground (`playground/index.html`)
+  - Research pages (`research/`)
 
 ## Browser Support
 

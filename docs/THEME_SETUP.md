@@ -30,9 +30,9 @@ Each HTML file includes:
 
 Updated files:
 - `index.html` (home page)
-- `persona.html`
+- `personas/index.html`
 - `play.html`
-- `demo.html`
+- `playground/index.html`
 - `demo_harbor.html`
 
 ### CSS Architecture

@@ -11,7 +11,7 @@ Phases shipped here:
        guardrails (stop-before-submit, synthetic data) and trajectory logging.
 
 P2-P4 (per-step reward, end-of-run findings judge, and the case_study.html /
-demo.html report wiring) are stubbed for follow-up.
+playground/index.html report wiring) are stubbed for follow-up.
 """
 
 __version__ = "0.1.0"
