@@ -17,6 +17,7 @@
   const UI = {
     en: {
       title: "Persona Attribute Survey",
+      intro: "Curious to understand yourself through the MatrAIx persona framework? Share your experiences, preferences, and behavioral tendencies to build your own Persona. When you finish, you will receive a personalized report covering your core traits, strengths, behavioral patterns, and growth areas.",
       subtitle: "Work through 43 categories of persona dimensions, one category at a time. Every answer is saved locally the moment you make it, so you can stop and pick up where you left off.",
       searchLabel: "Search all dimensions",
       searchPlaceholder: "search all 43 categories...",
@@ -127,6 +128,7 @@
     },
     zh: {
       title: "Persona 属性问卷",
+      intro: "如果你希望更深入地了解自己，可以在这里填写你的个人经历、偏好与行为倾向，建立属于你的 Persona。完成问卷后，我们会为你生成一份个性化人格报告，呈现你的核心性格、优势、行为模式与成长方向。",
       subtitle: "逐个完成 43 个类别的 persona 维度。每次作答都会立即保存在本地，可随时中断并从上次的位置继续。",
       searchLabel: "搜索全部维度",
       searchPlaceholder: "搜索全部 43 个类别...",
@@ -362,7 +364,7 @@
 
   const dom = {};
   const REQUIRED_IDS = [
-    "titleText", "subtitleText", "searchLabel", "dimensionSearch", "languageLabel", "langToggle",
+    "titleText", "introText", "subtitleText", "searchLabel", "dimensionSearch", "languageLabel", "langToggle",
     "progressStats", "searchSummary", "groupTabs", "groupContent", "prevGroupBtn", "nextGroupBtn",
     "fillDefaultsBtn", "generateReportBtn", "downloadBtn", "resetBtn", "resetAllBtn", "status",
     "finishZoneLabel", "dangerZoneLabel", "backToTop", "backToTopLabel", "reportPanel", "reportContent"
@@ -876,6 +878,7 @@
 
   function updateStaticUiText() {
     dom.titleText.textContent = t("title");
+    dom.introText.textContent = t("intro");
     dom.subtitleText.textContent = t("subtitle");
     dom.searchLabel.textContent = t("searchLabel");
     dom.dimensionSearch.placeholder = t("searchPlaceholder");

@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/benchmark.css?v=37" />
+  <link rel="stylesheet" href="css/benchmark.css?v=41" />
   <link rel="stylesheet" href="css/dark-theme.css?v=5" />
   <style>
   .os-explain .ex-url{color:var(--ink)}
@@ -95,7 +95,7 @@
   @media (max-width:560px){.apim-wire{width:30px}.apim-node{min-width:84px;padding:9px 10px}}
   @media (prefers-reduced-motion:reduce){.apim-scrim.open .apim-wire i,.apim-scrim.open .apim-node.hub .ico,.apim-scrim.open .apim-feat,.apim-scrim.open .apim-code .cl,.apim-code .caret{animation:none!important}.apim-code .cl{opacity:1}}
   </style>
-<link rel="stylesheet" href="css/subpages-light.css?v=2" />
+<link rel="stylesheet" href="css/subpages-light.css?v=3" />
 <link rel="stylesheet" href="css/navigation.css?v=1" /></head>
 <body class="os">
   <!-- PORTAL -->
@@ -190,36 +190,6 @@
     </article>
   </div>
 
-  <!-- Generated reports -->
-  <section class="genreports" id="reports">
-    <div class="print-head" aria-hidden="true">
-      <div class="ph-logo" aria-label="MatrAIx">Matr<em>AI</em>x</div>
-      <div class="ph-title">Agent Evaluation Report</div>
-      <div class="ph-meta" id="phMeta"></div>
-    </div>
-    <div class="gr-head">
-      <span class="gr-idx">— GENERATED REPORTS</span>
-      <h2 class="gr-title">Reports from eight evaluation tasks.</h2>
-      <p class="gr-sub">Public demo results with independent randomized sampling for every task.</p>
-      <div class="gr-chips">
-        <span class="gr-chip">2 Surveys · 1M responses</span>
-        <span class="gr-chip">2 Chatbots · 5.2B tokens</span>
-        <span class="gr-chip">2 Websites · 3.6M interactions</span>
-        <span class="gr-chip">2 Apps · 54.2K actions</span>
-      </div>
-      <button class="gr-print" id="grPrint">⎙ Print / Save as PDF</button>
-    </div>
-    <div class="gr-runs" id="grRuns" hidden>
-      <div class="gr-runs-h">▸ From the simulator — live agent runs</div>
-      <div class="gr-runs-grid" id="grRunsGrid"></div>
-    </div>
-    <div class="gr-card">
-      <div class="gr-tabs" id="abTabs" role="tablist"></div>
-      <div class="gr-body" id="abBody"></div>
-    </div>
-    <div class="print-foot" aria-hidden="true" id="phFoot"></div>
-  </section>
-
   <!-- API import modal -->
   <div class="apim-scrim" id="apiScrim">
     <div class="apim" role="dialog" aria-modal="true" aria-label="Run matrAIx in your own environment">
@@ -293,129 +263,6 @@
   <script src="js/dimensions.js?v=7"></script>
   <script src="js/metrics.js?v=2"></script>
   <script src="js/benchmark.js?v=29"></script>
-  <script>
-  /* ---------- Live agent runs from the CUA pipeline ---------- */
-  (function(){
-    var box=document.getElementById('grRuns'); if(!box) return;
-    var grid=document.getElementById('grRunsGrid');
-    var led=document.getElementById('backendLed');
-    var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
-    var qp=new URLSearchParams(location.search);
-    var apiBase=(qp.get('api') || localStorage.getItem('matraix_api_base') || 'http://127.0.0.1:8080').replace(/\/+$/,'');
-    localStorage.setItem('matraix_api_base', apiBase);
-    function onApi(ok,title){
-      if(!led) return;
-      led.classList.toggle('on', !!ok);
-      led.textContent=ok?'API ✓':'API';
-      if(title) led.title=title;
-    }
-    function q(url){
-      return fetch(url,{cache:'no-store'}).then(function(r){
-        if(!r.ok) throw new Error(String(r.status));
-        return r.json();
-      });
-    }
-    function card(x){
-      var sc=(x.score!=null?Number(x.score).toFixed(2):'—');
-      return '<a class="gr-run" href="'+esc(x.href||'#')+'" target="_blank" rel="noopener">'+
-        '<div class="gr-run-top"><span class="gr-run-persona">'+esc(x.persona||'persona')+'</span><span class="gr-run-score">'+sc+'</span></div>'+
-        '<div class="gr-run-goal">'+esc(x.goal||'')+'</div>'+
-        '<div class="gr-run-meta">'+esc(x.outcome||'—')+' · '+esc(x.steps||'—')+' steps</div></a>';
-    }
-    function pathRun(job,t){
-      var need=[t.source,t.agent_name,t.model_provider,t.model_name,t.task_name,t.name];
-      if(need.some(function(v){return v==null || v==='';})) return '#';
-      return apiBase+'/jobs/'+encodeURIComponent(job)+'/tasks/'+
-        encodeURIComponent(t.source)+'/'+encodeURIComponent(t.agent_name)+'/'+
-        encodeURIComponent(t.model_provider)+'/'+encodeURIComponent(t.model_name)+'/'+
-        encodeURIComponent(t.task_name)+'/trials/'+encodeURIComponent(t.name);
-    }
-    function loadBackendRuns(){
-      return q(apiBase+'/api/health')
-        .then(function(){ return q(apiBase+'/api/jobs?page=1&page_size=1'); })
-        .then(function(jobs){
-          var items=(jobs&&jobs.items)||[];
-          if(!items.length) throw new Error('no-jobs');
-          var job=items[0].name;
-          return q(apiBase+'/api/jobs/'+encodeURIComponent(job)+'/trials?page=1&page_size=16')
-            .then(function(tr){
-              var runs=((tr&&tr.items)||[]).map(function(t){
-                return {
-                  href:pathRun(job,t),
-                  persona:t.source || t.agent_name || 'trial',
-                  score:t.reward,
-                  goal:t.task_name || '',
-                  outcome:t.error_type ? ('error: '+t.error_type) : 'completed',
-                  steps:'?'
-                };
-              });
-              if(!runs.length) throw new Error('no-trials');
-              grid.innerHTML=runs.map(card).join('');
-              box.hidden=false;
-              onApi(true, 'Connected: '+apiBase+' (job '+job+')');
-            });
-        });
-    }
-    function loadStatic(){
-      return fetch('Assets/runs/index.json',{cache:'no-store'})
-        .then(function(r){return r.ok?r.json():null;})
-        .then(function(j){
-          var runs=(j&&j.runs)||[]; if(!runs.length) return;
-          grid.innerHTML=runs.map(function(x){
-            return card({
-              href:'case_study.html?run='+encodeURIComponent(x.id),
-              persona:x.persona,
-              score:x.score,
-              goal:x.goal,
-              outcome:x.outcome||'—',
-              steps:x.steps||0
-            });
-          }).join('');
-          box.hidden=false;
-        });
-    }
-    loadBackendRuns().catch(function(){
-      onApi(false, 'Backend unavailable: '+apiBase+' (fallback to static runs)');
-      return loadStatic();
-    }).catch(function(){});
-  })();
-  </script>
-  <script>
-  /* ---------- Generated reports viewer (A/B by persona segment) ---------- */
-  (function(){
-    var tabsEl=document.getElementById('abTabs'), body=document.getElementById('abBody');
-    if(!tabsEl||!body) return;
-    var nf=new Intl.NumberFormat('en-US');
-    var agentCounts=window.MATRAIX_TASK_AGENT_COUNTS||{};
-    var REPORTS=[
-      {tab:'Candy Land',target:'Candy Land price sensitivity · Survey · Commerce',a:'Current price',b:'Proposed price',agents:agentCounts['candy-land-price']||0,metric:'purchase intent',winner:'A',lift:'+12.0%',segments:[['Parents',72,61],['Gift buyers',68,57],['Teachers',64,55],['Price-sensitive households',59,41]],findings:[['high','Price-sensitive households show the largest decline at the proposed price.'],['med','Gift buyers tolerate a smaller increase when the product is bundled.'],['low','Brand familiarity moderates the decline in purchase intent.']]},
-      {tab:'Checkups',target:'Annual checkup habits · Survey · Healthcare',a:'General reminder',b:'Personalized planning',agents:agentCounts['annual-checkup']||0,metric:'booking intent',winner:'B',lift:'+16.0%',segments:[['Regular patients',74,86],['Care avoiders',38,57],['Uninsured',31,43],['Rural patients',45,61]],findings:[['high','Cost and access remain the dominant barriers for uninsured personas.'],['med','Personalized next steps improve intent most among care avoiders.'],['low','Reminder timing matters more for parents and caregivers.']]},
-      {tab:'Meal plans',target:'Meal planning nutrition assistant · Chatbot · Healthcare',a:'Generic assistant',b:'Persona-aware assistant',agents:agentCounts['meal-planning']||0,metric:'useful safe plans',winner:'B',lift:'+21.0%',segments:[['Budget constrained',58,82],['Food allergies',61,89],['Busy households',67,86],['Fitness focused',73,88]],findings:[['high','Generic plans violate at least one stated constraint for allergy personas.'],['med','Budget-aware substitutions drive the largest usefulness gain.'],['low','Short preparation steps improve completion for busy households.']]},
-      {tab:'OpenBB',target:'OpenBB corporate action · Chatbot · Finance',a:'Unsupported response',b:'Source-grounded research',agents:agentCounts['openbb-corporate-action']||0,metric:'research accuracy',winner:'B',lift:'+28.0%',segments:[['Retail investors',52,84],['Analysts',63,91],['Finance students',48,83],['Low expertise',41,76]],findings:[['high','Unsupported responses frequently confuse corporate actions with temporary data gaps.'],['med','Source citations sharply improve trust among analysts.'],['low','Plain-language corporate-action explanations help low-expertise users.']]},
-      {tab:'Notion',target:'Notion plan comparison · Website · Software',a:'Comparison table',b:'Guided recommendation',agents:agentCounts['notion-plans']||0,metric:'correct plan choice',winner:'B',lift:'+14.0%',segments:[['Individuals',78,89],['Small teams',67,86],['Enterprise admins',71,84],['First-time users',55,79]],findings:[['high','First-time users misread guest and member limits in the comparison table.'],['med','Guided questions reduce over-purchasing among individuals.'],['low','Security details remain difficult to find for enterprise admins.']]},
-      {tab:'MIT OCW',target:'MIT OpenCourseWare course choice · Website · Education',a:'Catalog search',b:'Goal-guided shortlist',agents:agentCounts['mit-ocw-choice']||0,metric:'suitable course choice',winner:'B',lift:'+19.0%',segments:[['High-school learners',49,76],['University students',68,85],['Professionals',61,82],['Non-native English',54,79]],findings:[['high','Prerequisite language causes the most mismatches for early learners.'],['med','Goal-guided shortlists reduce time to a suitable course.'],['low','Material-format filters matter most to working professionals.']]},
-      {tab:'News+',target:'News+ subscription decision · App · Software',a:'Standard offer',b:'Personalized content preview',agents:agentCounts['news-plus']||0,metric:'informed subscription intent',winner:'B',lift:'+11.0%',segments:[['Daily readers',73,87],['Occasional readers',42,58],['Existing subscribers',65,77],['Price-sensitive users',36,49]],findings:[['high','Trial-renewal terms are missed by many occasional readers.'],['med','Relevant publication previews improve perceived value.'],['low','Price-sensitive users prefer annual savings stated in absolute dollars.']]},
-      {tab:'Stocks',target:'Stocks sentiment · App · Finance',a:'Raw sentiment score',b:'Sentiment with context',agents:agentCounts['stocks-sentiment']||0,metric:'correct interpretation',winner:'B',lift:'+23.0%',segments:[['Beginner investors',44,76],['Long-term investors',63,84],['Active traders',72,89],['Risk-averse users',51,81]],findings:[['high','Beginners often interpret an unexplained score as investment advice.'],['med','Source context improves calibration across every segment.'],['low','Risk warnings are most effective beside the sentiment label.']]}
-    ];
-    function render(i){
-      var r=REPORTS[i];
-      var rows=r.segments.map(function(s){var d=s[2]-s[1],cls=d>0?'up':'down';return '<tr><td class="seg">'+s[0]+'</td><td>'+s[1]+'%</td><td class="win">'+s[2]+'%</td><td class="'+cls+'">'+(d>0?'+':'')+d+' pts</td></tr>';}).join('');
-      var finds=r.findings.map(function(f){return '<li class="gr-fi"><span class="gr-sev '+f[0]+'">'+f[0].toUpperCase()+'</span><span>'+f[1]+'</span></li>';}).join('');
-      body.innerHTML='<div class="gr-meta"><div><div class="gr-target">'+r.target+'</div><div class="gr-variants"><b>A</b> '+r.a+' &nbsp;·&nbsp; <b>B</b> '+r.b+'</div></div><span class="gr-agents">'+nf.format(r.agents)+' agents</span></div>'+
-        '<div class="gr-verdict"><span class="gr-badge">Variant '+r.winner+' wins</span><span class="gr-lift">'+r.lift+'</span><span class="gr-metric">'+r.metric+', population-weighted</span></div>'+
-        '<table class="gr-table"><thead><tr><th>Persona segment</th><th>A</th><th>B</th><th>Δ</th></tr></thead><tbody>'+rows+'</tbody></table>'+
-        '<div class="gr-find"><h4>What the agents found</h4><ul>'+finds+'</ul></div>';
-      var ds=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-      var pm=document.getElementById('phMeta'), pf=document.getElementById('phFoot');
-      if(pm) pm.innerHTML=r.target+' &nbsp;·&nbsp; '+nf.format(r.agents)+' simulated agents &nbsp;·&nbsp; '+ds;
-      if(pf) pf.textContent='Generated by matrAIx — Agent Simulation for Evaluation · matraix.ai · '+ds+' · population-scale over 1,000 persona dimensions';
-    }
-    tabsEl.innerHTML=REPORTS.map(function(r,i){return '<button class="gr-tab'+(i===0?' active':'')+'" role="tab" data-i="'+i+'">'+r.tab+'</button>';}).join('');
-    tabsEl.addEventListener('click',function(e){var b=e.target.closest('.gr-tab');if(!b)return;var i=+b.dataset.i;[].forEach.call(tabsEl.children,function(c,k){c.classList.toggle('active',k===i);});body.classList.remove('flip');void body.offsetWidth;body.classList.add('flip');render(i);});
-    var pbtn=document.getElementById('grPrint'); if(pbtn) pbtn.addEventListener('click',function(){window.print();});
-    render(0);
-  })();
-  </script>
 
 </body>
 </html>

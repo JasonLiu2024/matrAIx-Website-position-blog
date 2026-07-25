@@ -102,9 +102,17 @@
   font-size: clamp(1.9rem, 4vw, 2.8rem);
 }
 
-.play-sub {
-  margin: 12px 0 0;
+.play-intro {
+  max-width: 76ch;
+  margin: 14px 0 0;
   color: var(--ink);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.play-sub {
+  margin: 8px 0 0;
+  color: var(--ink-dim);
   max-width: 80ch;
 }
 
