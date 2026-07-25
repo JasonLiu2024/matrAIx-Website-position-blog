@@ -99,7 +99,7 @@ function startCardAnimation(card, immediate = false) {
     image.src = image.dataset.animatedSrc;
   };
   if (immediate) start();
-  else animationTimers.set(card, setTimeout(start, 120));
+  else animationTimers.set(card, setTimeout(start, 40));
 }
 
 function stopCardAnimation(card) {
