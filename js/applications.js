@@ -48,6 +48,7 @@ const taskDetails = {
     audience: "Mobile news readers with different reading frequency, topic interests, household arrangements, subscription histories, price sensitivity, and trust in news brands.",
     metric: ">65% informed decisions",
     metricNote: "More than 65% can accurately explain the price, renewal terms, and included value before deciding.",
+    youtubeUrl: "https://youtu.be/sNi7HrNayeM",
     results: { headline: "96%", label: "declined News+", bars: [["Decline", 95.8], ["Subscribe", 4.2]], finding: "Catalog fit and the $12.99 monthly price drove the decision; 23 of 24 personas declined.", note: "n=24 published report cohort · GPT-5.5 · iOS app", source: "Type%204%20-%20App/pg-os-app-ios-news-subscription-decision/gpt_5_5/report" }
   },
   "Stocks Sentiment": {
@@ -55,6 +56,7 @@ const taskDetails = {
     audience: "Retail investors ranging from beginners to active traders, with varied portfolios, financial literacy, risk tolerance, investment horizons, and familiarity with sentiment indicators.",
     metric: ">80% comprehension",
     metricNote: "At least 80% interpret the sentiment signal correctly without treating it as guaranteed investment advice.",
+    youtubeUrl: "https://youtu.be/w0eMJJqdm28",
     supportingImage1: "Assets/media/application_demo/type_4_app/MU Stock/MU Stock Report.png",
     supportingImage2: "Assets/media/application_demo/type_4_app/MU Stock/MU Report Demo.gif",
     results: { headline: "55%", label: "held MU stock", bars: [["Hold", 55], ["Buy", 45], ["Sell", 0]], finding: "Strong fundamentals supported buying interest, while short-term weakness kept a narrow majority at hold.", note: "n=20 · GPT-5.5 · mean decision confidence 7/10", source: "Type%204%20-%20App/pg-os-app-macos-stocks-mu-sentiment/gpt_5_5/report" }
@@ -66,17 +68,7 @@ const menu = document.querySelector('.mx-menu');
 const dialog = document.querySelector('#taskDialog');
 const closeButton = dialog.querySelector('.task-dialog-close');
 const resultsBase = 'https://huggingface.co/datasets/MatrAIx2026/Demo_Application_Data/tree/main/';
-const taskFolders = {
-  "Candy Land Price Sensitivity": "Type%201%20-%20Survey/survey_price-sensitivity-hasbro-gaming-candy-land",
-  "Annual Checkup Habits": "Type%201%20-%20Survey/survey_annual-checkup-habits",
-  "Meal Planning Nutrition Assistant": "Type%202%20-%20Chatbot/meal-planning-nutrition_chatbot",
-  "OpenBB Corporate Action": "Type%202%20-%20Chatbot/chat-openbb-corporate-action",
-  "Notion Plan Comparison": "Type%203%20-%20Website/web-notion-plan-comparison",
-  "MIT OpenCourseWare Course Choice": "Type%203%20-%20Website/web-playwright-mit-ocw-course-choice",
-  "News+ Subscription Decision": "Type%204%20-%20App/pg-os-app-ios-news-subscription-decision",
-  "Stocks Sentiment": "Type%204%20-%20App/pg-os-app-macos-stocks-mu-sentiment"
-};
-const [huggingFaceLink, youtubeLink] = dialog.querySelectorAll('.task-dialog-links a');
+const youtubeLink = document.querySelector('#taskYoutubeLink');
 const supportingImageContainers = [...dialog.querySelectorAll('.task-image-placeholder')].slice(1);
 const supportingImages = supportingImageContainers.map(container => {
   const image = document.createElement('img');
@@ -153,12 +145,15 @@ function openTask(card) {
   document.querySelector('#taskResultFinding').textContent = results.finding;
   document.querySelector('#taskResultNote').textContent = results.note;
   document.querySelector('#taskResultsSource').href = resultsBase + results.source;
-  huggingFaceLink.href = resultsBase + taskFolders[title];
-  huggingFaceLink.removeAttribute('aria-disabled');
-  huggingFaceLink.querySelector('small').textContent = 'Task folder';
-  const isApp = card.dataset.type === 'app';
-  youtubeLink.hidden = !isApp;
-  youtubeLink.setAttribute('aria-disabled', 'true');
+  youtubeLink.hidden = !detail.youtubeUrl;
+  if (detail.youtubeUrl) {
+    youtubeLink.href = detail.youtubeUrl;
+    youtubeLink.removeAttribute('aria-disabled');
+    youtubeLink.querySelector('small').textContent = 'Demo video';
+  } else {
+    youtubeLink.removeAttribute('href');
+    youtubeLink.setAttribute('aria-disabled', 'true');
+  }
   const bars = document.querySelector('#taskResultBars');
   bars.replaceChildren(...results.bars.map(([label, value]) => {
     const row = document.createElement('div');
@@ -228,9 +223,4 @@ dialog.addEventListener('close', () => {
   document.querySelector('#taskDialogCoverImage').removeAttribute('src');
   supportingImages.forEach(image => image.removeAttribute('src'));
   triggerCard?.focus();
-});
-dialog.querySelectorAll('a[aria-disabled="true"]').forEach(link => {
-  link.addEventListener('click', event => {
-    if (link.getAttribute('aria-disabled') === 'true') event.preventDefault();
-  });
 });
