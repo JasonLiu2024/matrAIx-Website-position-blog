@@ -48,7 +48,7 @@ const taskDetails = {
     audience: "Mobile news readers with different reading frequency, topic interests, household arrangements, subscription histories, price sensitivity, and trust in news brands.",
     metric: ">65% informed decisions",
     metricNote: "More than 65% can accurately explain the price, renewal terms, and included value before deciding.",
-    youtubeId: "sNi7HrNayeM",
+    youtubeId: "6mUAPvHbe1s",
     results: { headline: "96%", label: "declined News+", bars: [["Decline", 95.8], ["Subscribe", 4.2]], finding: "Catalog fit and the $12.99 monthly price drove the decision; 23 of 24 personas declined.", note: "n=24 published report cohort · GPT-5.5 · iOS app", source: "Type%204%20-%20App/pg-os-app-ios-news-subscription-decision/gpt_5_5/report" }
   },
   "Stocks Sentiment": {
@@ -56,7 +56,7 @@ const taskDetails = {
     audience: "Retail investors ranging from beginners to active traders, with varied portfolios, financial literacy, risk tolerance, investment horizons, and familiarity with sentiment indicators.",
     metric: ">80% comprehension",
     metricNote: "At least 80% interpret the sentiment signal correctly without treating it as guaranteed investment advice.",
-    youtubeId: "w0eMJJqdm28",
+    youtubeId: "WQS6GYbxuTc",
     supportingImage1: "Assets/media/application_demo/type_4_app/MU Stock/MU Stock Report.png",
     supportingImage2: "Assets/media/application_demo/type_4_app/MU Stock/MU Report Demo.gif",
     results: { headline: "55%", label: "held MU stock", bars: [["Hold", 55], ["Buy", 45], ["Sell", 0]], finding: "Strong fundamentals supported buying interest, while short-term weakness kept a narrow majority at hold.", note: "n=20 · GPT-5.5 · mean decision confidence 7/10", source: "Type%204%20-%20App/pg-os-app-macos-stocks-mu-sentiment/gpt_5_5/report" }
